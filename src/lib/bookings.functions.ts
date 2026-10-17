@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
 const SERVICE_SLUGS = ["lavagem", "higienizacao", "polimento", "ceramica"] as const;
 
@@ -137,7 +139,7 @@ export const cancelBooking = createServerFn({ method: "POST" })
 
 // ===================== Painel financeiro (funcionário/financeiro) =====================
 
-async function requireStaff(supabase: typeof import("@/integrations/supabase/client") extends never ? never : any, userId: string) {
+async function requireStaff(supabase: SupabaseClient<Database>, userId: string) {
   const { data: isStaff } = await supabase.rpc("has_role", { _user_id: userId, _role: "funcionario" });
   const { data: isFinanceiro } = await supabase.rpc("has_role", { _user_id: userId, _role: "financeiro" });
   if (!isStaff && !isFinanceiro) throw new Error("Acesso restrito à equipe DetailPro.");
