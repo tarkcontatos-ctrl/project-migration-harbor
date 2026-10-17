@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AvaliacoesRouteImport } from './routes/avaliacoes'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as EtapasRouteImport } from './routes/etapas'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as VantagensRouteImport } from './routes/vantagens'
+import { Route as ServicoServiceRouteImport } from './routes/servico.$service'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AvaliacoesRoute = AvaliacoesRouteImport.update({
+  id: '/avaliacoes',
+  path: '/avaliacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EtapasRoute = EtapasRouteImport.update({
+  id: '/etapas',
+  path: '/etapas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VantagensRoute = VantagensRouteImport.update({
+  id: '/vantagens',
+  path: '/vantagens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicoServiceRoute = ServicoServiceRouteImport.update({
+  id: '/servico/$service',
+  path: '/servico/$service',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/avaliacoes': typeof AvaliacoesRoute
+  '/contato': typeof ContatoRoute
+  '/etapas': typeof EtapasRoute
+  '/login': typeof LoginRoute
+  '/servicos': typeof ServicosRoute
+  '/vantagens': typeof VantagensRoute
+  '/servico/$service': typeof ServicoServiceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/avaliacoes': typeof AvaliacoesRoute
+  '/contato': typeof ContatoRoute
+  '/etapas': typeof EtapasRoute
+  '/login': typeof LoginRoute
+  '/servicos': typeof ServicosRoute
+  '/vantagens': typeof VantagensRoute
+  '/servico/$service': typeof ServicoServiceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/avaliacoes': typeof AvaliacoesRoute
+  '/contato': typeof ContatoRoute
+  '/etapas': typeof EtapasRoute
+  '/login': typeof LoginRoute
+  '/servicos': typeof ServicosRoute
+  '/vantagens': typeof VantagensRoute
+  '/servico/$service': typeof ServicoServiceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/avaliacoes'
+    | '/contato'
+    | '/etapas'
+    | '/login'
+    | '/servicos'
+    | '/vantagens'
+    | '/servico/$service'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/avaliacoes'
+    | '/contato'
+    | '/etapas'
+    | '/login'
+    | '/servicos'
+    | '/vantagens'
+    | '/servico/$service'
+  id:
+    | '__root__'
+    | '/'
+    | '/avaliacoes'
+    | '/contato'
+    | '/etapas'
+    | '/login'
+    | '/servicos'
+    | '/vantagens'
+    | '/servico/$service'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvaliacoesRoute: typeof AvaliacoesRoute
+  ContatoRoute: typeof ContatoRoute
+  EtapasRoute: typeof EtapasRoute
+  LoginRoute: typeof LoginRoute
+  ServicosRoute: typeof ServicosRoute
+  VantagensRoute: typeof VantagensRoute
+  ServicoServiceRoute: typeof ServicoServiceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/avaliacoes': {
+      id: '/avaliacoes'
+      path: '/avaliacoes'
+      fullPath: '/avaliacoes'
+      preLoaderRoute: typeof AvaliacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/etapas': {
+      id: '/etapas'
+      path: '/etapas'
+      fullPath: '/etapas'
+      preLoaderRoute: typeof EtapasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vantagens': {
+      id: '/vantagens'
+      path: '/vantagens'
+      fullPath: '/vantagens'
+      preLoaderRoute: typeof VantagensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servico/$service': {
+      id: '/servico/$service'
+      path: '/servico/$service'
+      fullPath: '/servico/$service'
+      preLoaderRoute: typeof ServicoServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvaliacoesRoute: AvaliacoesRoute,
+  ContatoRoute: ContatoRoute,
+  EtapasRoute: EtapasRoute,
+  LoginRoute: LoginRoute,
+  ServicosRoute: ServicosRoute,
+  VantagensRoute: VantagensRoute,
+  ServicoServiceRoute: ServicoServiceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

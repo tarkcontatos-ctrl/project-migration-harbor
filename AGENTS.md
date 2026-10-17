@@ -8,3 +8,11 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Reference recreation
+- Keep the trusted original DetailPro markup in its feature module and render it at the index route; preserving the supplied structure avoids visual drift.
+- Retain original reference photos as asset pointers; import enhanced 4K WebP derivatives directly and keep the reference palette in global semantic OKLCH tokens to preserve fidelity and efficient delivery.
+- Scope the reference stylesheet to `.detailpro` so its element selectors cannot override other pages' navigation and spacing.
+- Contact messages use a schema-validated, encoded mailto action rather than simulated delivery; no messaging service is connected.
+- Use one shared service catalog for detail pages, login selection and booking prices; validate service IDs from URLs and never accept a price from query parameters.
+- Generic booking links open the service catalog; individual service links use `/servico/$service` and pass only the selected ID through login to the calendar.

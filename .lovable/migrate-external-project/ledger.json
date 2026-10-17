@@ -1,0 +1,2 @@
+[{"capability":"code","source":"archive","outcome":"migrate","status":"verified","next_action":"none"},
+{"capability":"database/auth","source":"none (login and booking are local-only in the browser)","outcome":"none","status":"verified","next_action":"none"}]
