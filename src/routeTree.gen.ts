@@ -13,7 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AvaliacoesRouteImport } from './routes/avaliacoes'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EtapasRouteImport } from './routes/etapas'
+import { Route as FinanceiroRouteImport } from './routes/financeiro'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as VantagensRouteImport } from './routes/vantagens'
 import { Route as ServicoServiceRouteImport } from './routes/servico.$service'
@@ -38,9 +40,19 @@ const EtapasRoute = EtapasRouteImport.update({
   path: '/etapas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinanceiroRoute = FinanceiroRouteImport.update({
+  id: '/financeiro',
+  path: '/financeiro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicosRoute = ServicosRouteImport.update({
@@ -64,7 +76,9 @@ export interface FileRoutesByFullPath {
   '/avaliacoes': typeof AvaliacoesRoute
   '/contato': typeof ContatoRoute
   '/etapas': typeof EtapasRoute
+  '/financeiro': typeof FinanceiroRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicos': typeof ServicosRoute
   '/vantagens': typeof VantagensRoute
   '/servico/$service': typeof ServicoServiceRoute
@@ -74,7 +88,9 @@ export interface FileRoutesByTo {
   '/avaliacoes': typeof AvaliacoesRoute
   '/contato': typeof ContatoRoute
   '/etapas': typeof EtapasRoute
+  '/financeiro': typeof FinanceiroRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicos': typeof ServicosRoute
   '/vantagens': typeof VantagensRoute
   '/servico/$service': typeof ServicoServiceRoute
@@ -85,7 +101,9 @@ export interface FileRoutesById {
   '/avaliacoes': typeof AvaliacoesRoute
   '/contato': typeof ContatoRoute
   '/etapas': typeof EtapasRoute
+  '/financeiro': typeof FinanceiroRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicos': typeof ServicosRoute
   '/vantagens': typeof VantagensRoute
   '/servico/$service': typeof ServicoServiceRoute
@@ -97,7 +115,9 @@ export interface FileRouteTypes {
     | '/avaliacoes'
     | '/contato'
     | '/etapas'
+    | '/financeiro'
     | '/login'
+    | '/reset-password'
     | '/servicos'
     | '/vantagens'
     | '/servico/$service'
@@ -107,7 +127,9 @@ export interface FileRouteTypes {
     | '/avaliacoes'
     | '/contato'
     | '/etapas'
+    | '/financeiro'
     | '/login'
+    | '/reset-password'
     | '/servicos'
     | '/vantagens'
     | '/servico/$service'
@@ -117,7 +139,9 @@ export interface FileRouteTypes {
     | '/avaliacoes'
     | '/contato'
     | '/etapas'
+    | '/financeiro'
     | '/login'
+    | '/reset-password'
     | '/servicos'
     | '/vantagens'
     | '/servico/$service'
@@ -128,7 +152,9 @@ export interface RootRouteChildren {
   AvaliacoesRoute: typeof AvaliacoesRoute
   ContatoRoute: typeof ContatoRoute
   EtapasRoute: typeof EtapasRoute
+  FinanceiroRoute: typeof FinanceiroRoute
   LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServicosRoute: typeof ServicosRoute
   VantagensRoute: typeof VantagensRoute
   ServicoServiceRoute: typeof ServicoServiceRoute
@@ -164,11 +190,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EtapasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/financeiro': {
+      id: '/financeiro'
+      path: '/financeiro'
+      fullPath: '/financeiro'
+      preLoaderRoute: typeof FinanceiroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/servicos': {
@@ -200,7 +240,9 @@ const rootRouteChildren: RootRouteChildren = {
   AvaliacoesRoute: AvaliacoesRoute,
   ContatoRoute: ContatoRoute,
   EtapasRoute: EtapasRoute,
+  FinanceiroRoute: FinanceiroRoute,
   LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServicosRoute: ServicosRoute,
   VantagensRoute: VantagensRoute,
   ServicoServiceRoute: ServicoServiceRoute,

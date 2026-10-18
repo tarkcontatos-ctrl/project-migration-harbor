@@ -75,7 +75,7 @@ export const createBooking = createServerFn({ method: "POST" })
     // Preço e nome vêm SEMPRE do cadastro de serviços, nunca do cliente.
     const { data: servico, error: sErr } = await supabase
       .from("servicos")
-      .select("id")
+      .select("id, nome, preco")
       .eq("slug", data.service)
       .eq("ativo", true)
       .single();
@@ -115,7 +115,7 @@ export const createBooking = createServerFn({ method: "POST" })
 
     const { error: iErr } = await supabase
       .from("agendamento_itens")
-      .insert({ agendamento_id: agendamento.id, servico_id: servico.id });
+      .insert({ agendamento_id: agendamento.id, servico_id: servico.id, servico_nome: servico.nome, preco_unitario: servico.preco });
     if (iErr) {
       await supabase.from("agendamentos").delete().eq("id", agendamento.id);
       throw new Error(iErr.message);
