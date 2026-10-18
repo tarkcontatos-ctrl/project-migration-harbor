@@ -51,7 +51,7 @@ function ResetPasswordPage() {
         {done ? (
           <>
             <p className="text-sm text-muted-foreground text-center mb-6">Senha redefinida com sucesso. Você já pode entrar.</p>
-            <Link to="/login" className="w-full text-center bg-primary text-primary-foreground font-semibold px-6 py-4 rounded-full hover:bg-primary-hover transition text-sm">Ir para o login</Link>
+            <Link to="/login" search={{ service: undefined }} className="w-full text-center bg-primary text-primary-foreground font-semibold px-6 py-4 rounded-full hover:bg-primary-hover transition text-sm">Ir para o login</Link>
           </>
         ) : ready ? (
           <form onSubmit={submit} className="flex flex-col w-full gap-4">
@@ -63,7 +63,7 @@ function ResetPasswordPage() {
         ) : (
           <>
             <p className="text-sm text-muted-foreground text-center mb-6">Este link de redefinição é inválido ou expirou.</p>
-            <Link to="/login" className="underline text-sm text-foreground/80 hover:text-foreground">Voltar para o login</Link>
+            <Link to="/login" search={{ service: undefined }} className="underline text-sm text-foreground/80 hover:text-foreground">Voltar para o login</Link>
           </>
         )}
       </div>
