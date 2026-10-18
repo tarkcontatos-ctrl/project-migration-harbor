@@ -4,6 +4,28 @@ import { Droplets, Sparkles, Shield, Armchair, Clock, Award, Leaf, BadgeCheck, S
 import { SERVICES } from "./services";
 import { Button } from "@/components/ui/button";
 import { contactSchema, contactEmailUrl } from "./contact-validation";
+import { supabase } from "@/integrations/supabase/client";
+
+function AuthLink() {
+  const [email, setEmail] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      setEmail(session?.user?.email ?? null);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  if (email) {
+    return (
+      <span className="flex items-center gap-3">
+        <Link to="/login" className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Agendar</Link>
+        <button type="button" onClick={() => void supabase.auth.signOut()} className="text-[13px] text-muted-foreground hover:text-primary transition">Sair</button>
+      </span>
+    );
+  }
+  return <Link to="/login" className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Entrar</Link>;
+}
 
 const NAV = [
   { to: "/servicos", label: "Serviços" },
@@ -27,7 +49,7 @@ export function Shell({ eyebrow, title, intro, children, showBookingCta = true }
           <nav className="hidden md:flex gap-10 text-sm text-soft-foreground">
             {NAV.map((n) => <Link key={n.to} to={n.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{n.label}</Link>)}
           </nav>
-          <Link to="/servicos" className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Agendar</Link>
+          <AuthLink />
         </div>
         <nav className="md:hidden flex gap-5 overflow-x-auto px-6 pb-4 text-sm text-soft-foreground">
           {NAV.map((n) => <Link key={n.to} to={n.to} className="whitespace-nowrap" activeProps={{ className: "text-primary" }}>{n.label}</Link>)}
