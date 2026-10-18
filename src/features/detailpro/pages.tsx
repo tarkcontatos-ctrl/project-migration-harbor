@@ -19,12 +19,12 @@ function AuthLink() {
   if (email) {
     return (
       <span className="flex items-center gap-3">
-        <Link to="/login" className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Agendar</Link>
+        <Link to="/login" search={{ service: undefined }} className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Agendar</Link>
         <button type="button" onClick={() => void supabase.auth.signOut()} className="text-[13px] text-muted-foreground hover:text-primary transition">Sair</button>
       </span>
     );
   }
-  return <Link to="/login" className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Entrar</Link>;
+  return <Link to="/login" search={{ service: undefined }} className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Entrar</Link>;
 }
 
 const NAV = [
