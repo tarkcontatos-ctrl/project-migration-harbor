@@ -3,6 +3,8 @@ import * as React from "react";
 import { getService } from "@/features/detailpro/services";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { useNavigate } from "@tanstack/react-router";
+import { loginDestination } from "@/features/detailpro/login-destination";
 
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" aria-hidden="true">
@@ -26,18 +28,57 @@ const SignIn1 = ({ serviceId }: { serviceId?: string | undefined }) => {
   const [busy, setBusy] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState<string | null>(null);
   const [checking, setChecking] = React.useState(true);
+  const [user, setUser] = React.useState<{ id: string; email?: string } | null>(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     let active = true;
     supabase.auth.getUser().then(({ data }) => {
-      if (active) { setUserEmail(data.user?.email ?? null); setChecking(false); }
+      if (active) {
+        setUser(data.user);
+        if (!data.user) setChecking(false);
+      }
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
-      setUserEmail(session?.user?.email ?? null);
+      setChecking(Boolean(session?.user));
+      setUserEmail(null);
+      setUser(session?.user ?? null);
     });
     return () => { active = false; sub.subscription.unsubscribe(); };
   }, []);
+
+  React.useEffect(() => {
+    if (!user) return;
+    let active = true;
+    const resolveDestination = async () => {
+      setChecking(true);
+      setError("");
+      try {
+        const results = await Promise.all([
+          supabase.rpc("has_role", { _user_id: user.id, _role: "financeiro" }),
+          supabase.rpc("has_role", { _user_id: user.id, _role: "funcionario" }),
+        ]);
+        if (!active) return;
+        const failed = results.find((result) => result.error);
+        if (failed?.error) throw failed.error;
+        const roles = results.flatMap((result, index) => result.data ? [index === 0 ? "financeiro" : "funcionario"] : []);
+        if (loginDestination(roles) === "/financeiro") {
+          await navigate({ to: "/financeiro", replace: true });
+          return;
+        }
+        setUserEmail(user.email ?? "");
+        setChecking(false);
+      } catch {
+        if (active) {
+          setError("Não foi possível verificar seu acesso. Tente entrar novamente.");
+          setChecking(false);
+        }
+      }
+    };
+    void resolveDestination();
+    return () => { active = false; };
+  }, [user, navigate]);
 
   const validateEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
@@ -97,7 +138,7 @@ const SignIn1 = ({ serviceId }: { serviceId?: string | undefined }) => {
       <div className="absolute bottom-0 right-0 w-[380px] h-[380px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
 
       <div className={`relative z-10 w-full ${signedIn ? "max-w-2xl px-2 sm:px-4 py-4" : "max-w-md px-8 sm:px-12 py-14"} rounded-[2rem] bg-card/70 border border-border backdrop-blur-xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] flex flex-col items-center`}>
-        {checking ? null : signedIn ? (
+        {checking ? <p className="text-sm text-muted-foreground" role="status">Verificando seu acesso…</p> : signedIn ? (
           <BookingPanel email={userEmail ?? ""} selectedService={selectedService} />
         ) : (
           <>

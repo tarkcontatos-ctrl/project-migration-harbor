@@ -16,3 +16,4 @@
 - Contact messages use a schema-validated, encoded mailto action rather than simulated delivery; no messaging service is connected.
 - Use one shared service catalog for detail pages, login selection and booking prices; validate service IDs from URLs and never accept a price from query parameters.
 - Generic booking links open the service catalog; individual service links use `/servico/$service` and pass only the selected ID through login to the calendar.
+- Resolve the login destination from authenticated role RPCs before rendering booking; staff navigate to the financial panel while its server handlers retain independent authorization.
