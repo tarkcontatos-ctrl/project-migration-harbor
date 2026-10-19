@@ -1,4 +1,5 @@
 # Remaining button review
+- [ ] Correct and verify role-aware financial account login routing.
 - [x] Correct shared styles that overlap the new pages.
 - [x] Replace the contact form's simulated success with a validated email action.
 - [x] Verify navigation and the existing local booking flow on desktop and mobile.
