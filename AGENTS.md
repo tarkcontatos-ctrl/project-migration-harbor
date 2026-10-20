@@ -17,3 +17,4 @@
 - Use one shared service catalog for detail pages, login selection and booking prices; validate service IDs from URLs and never accept a price from query parameters.
 - Generic booking links open the service catalog; individual service links use `/servico/$service` and pass only the selected ID through login to the calendar.
 - Resolve the login destination from authenticated role RPCs before rendering booking; staff navigate to the financial panel while its server handlers retain independent authorization.
+- Track new Google registration in an auth lifecycle trigger, gate app rendering in the root, and allow first-password writes only for the authenticated pending owner; existing identities and password changes must never enter this privileged onboarding path.
