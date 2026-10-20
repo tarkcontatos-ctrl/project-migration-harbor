@@ -1,4 +1,5 @@
 # Remaining button review
+- [ ] Require first-password setup for new Google accounts only, preserve existing-account access, and verify the flow.
 - [x] Correct and verify role-aware financial account login routing.
 - [x] Correct shared styles that overlap the new pages.
 - [x] Replace the contact form's simulated success with a validated email action.
