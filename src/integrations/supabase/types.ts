@@ -119,6 +119,29 @@ export type Database = {
           },
         ]
       }
+      google_password_setup: {
+        Row: {
+          completed_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "google_password_setup_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lancamentos_financeiros: {
         Row: {
           agendamento_id: string
@@ -294,6 +317,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      needs_google_password: { Args: never; Returns: boolean }
     }
     Enums: {
       agendamento_status: "agendado" | "concluido" | "cancelado" | "estornado"

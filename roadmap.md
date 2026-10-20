@@ -1,4 +1,6 @@
 # Remaining button review
+- [x] Require first-password setup for new Google accounts only and preserve existing-account access (automated checks passed).
+- [ ] Verify an actual Google sign-in with a new Google account; requires the account owner's Google authorization.
 - [x] Correct and verify role-aware financial account login routing.
 - [x] Correct shared styles that overlap the new pages.
 - [x] Replace the contact form's simulated success with a validated email action.

@@ -123,7 +123,10 @@ const SignIn1 = ({ serviceId }: { serviceId?: string | undefined }) => {
 
   const handleGoogle = async () => {
     setError("");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    // Return to this public page, preserving only the catalog-validated service ID.
+    const callback = new URL("/login", window.location.origin);
+    if (selectedService) callback.searchParams.set("service", selectedService.id);
+    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: callback.href });
     if (result.error) setError("Não foi possível entrar com o Google. Tente novamente.");
   };
 
