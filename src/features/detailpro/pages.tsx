@@ -16,12 +16,20 @@ function AuthLink() {
     });
     return () => sub.subscription.unsubscribe();
   }, []);
+  const [open, setOpen] = React.useState(false);
   if (email) {
     return (
-      <span className="flex items-center gap-3">
-        <Link to="/login" search={{ service: undefined }} className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Agendar</Link>
-        <button type="button" onClick={() => void supabase.auth.signOut()} className="text-[13px] text-muted-foreground hover:text-primary transition">Sair</button>
-      </span>
+      <div className="relative">
+        <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)} className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Entrar</button>
+        {open && (
+          <div className="absolute right-0 mt-2 z-50 w-64 rounded-2xl border border-border bg-card p-4 shadow-lg">
+            <p className="text-xs text-muted-foreground">Conectado como</p>
+            <p className="text-sm font-semibold truncate mb-4">{email}</p>
+            <Link to="/login" search={{ service: undefined }} onClick={() => setOpen(false)} className="block text-sm py-2 hover:text-primary">Meus agendamentos</Link>
+            <button type="button" onClick={() => { setOpen(false); void supabase.auth.signOut(); }} className="block w-full text-left text-sm py-2 text-primary hover:underline">Sair</button>
+          </div>
+        )}
+      </div>
     );
   }
   return <Link to="/login" search={{ service: undefined }} className="rounded-full border border-primary px-6 py-3 text-[13px] font-semibold hover:bg-primary hover:text-primary-foreground transition">Entrar</Link>;
