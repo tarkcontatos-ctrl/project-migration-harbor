@@ -8,6 +8,13 @@
       "when": 1792199988128,
       "tag": "0000_detailpro_core",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792458962207,
+      "tag": "0001_google_first_password",
+      "breakpoints": true
     }
   ]
 }
