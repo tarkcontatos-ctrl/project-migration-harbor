@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { staffBookingSchema } from "@/features/detailpro/staff-booking";
 
 const SERVICE_SLUGS = ["lavagem", "higienizacao", "polimento", "ceramica"] as const;
 
@@ -149,22 +150,55 @@ export const listPainel = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await requireStaff(context.supabase, context.userId);
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const supabaseAdmin = context.supabase;
     const [{ data: agendamentos, error: e1 }, { data: lancamentos, error: e2 }] = await Promise.all([
       supabaseAdmin
         .from("agendamentos")
-        .select("id, data_hora, status, local, valor_total, forma_pagamento, agendamento_itens(servico_nome)")
-        .order("data_hora", { ascending: false })
-        .limit(100),
+        .select("id, data_hora, status, local, valor_total, forma_pagamento, cliente_presencial_nome, cliente_presencial_telefone, veiculo_presencial_placa, veiculo_presencial_modelo, agendamento_itens(servico_nome)")
+        .order("data_hora", { ascending: false }),
       supabaseAdmin
         .from("lancamentos_financeiros")
         .select("id, competencia, tipo, servico_nome, quantidade, valor, forma_pagamento, motivo")
-        .order("competencia", { ascending: false })
-        .limit(200),
+        .order("id", { ascending: true })
+        .range(0, 999),
     ]);
     if (e1) throw new Error(e1.message);
     if (e2) throw new Error(e2.message);
-    return { agendamentos: agendamentos ?? [], lancamentos: lancamentos ?? [] };
+    const allEntries = [...(lancamentos ?? [])];
+    let offset = 1000;
+    let pageSize = lancamentos?.length ?? 0;
+    while (pageSize === 1000) {
+      const { data: page, error } = await context.supabase.from("lancamentos_financeiros")
+        .select("id, competencia, tipo, servico_nome, quantidade, valor, forma_pagamento, motivo")
+        .order("id", { ascending: true }).range(offset, offset + 999);
+      if (error) throw new Error("Não foi possível carregar o histórico financeiro.");
+      allEntries.push(...(page ?? []));
+      pageSize = page?.length ?? 0;
+      offset += 1000;
+    }
+    return { agendamentos: agendamentos ?? [], lancamentos: allEntries };
+  });
+
+export const listStaffServices = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await requireStaff(context.supabase, context.userId);
+    const { data, error } = await context.supabase.from("servicos").select("id, nome, preco").eq("ativo", true).order("preco");
+    if (error) throw new Error("Não foi possível carregar os serviços.");
+    return data;
+  });
+
+export const createStaffBooking = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => staffBookingSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await requireStaff(context.supabase, context.userId);
+    const { data: id, error } = await context.supabase.rpc("create_walk_in_booking", {
+      p_service: data.service, p_date_time: `${data.date}T${data.time}:00-03:00`, p_location: data.location,
+      p_name: data.name, p_phone: data.phone || undefined, p_plate: data.plate || undefined, p_model: data.model || undefined,
+    });
+    if (error) throw new Error(error.message);
+    return { id };
   });
 
 export const concluirAgendamento = createServerFn({ method: "POST" })
