@@ -17,14 +17,15 @@ export function StaffDashboard({ view }: { view: "staff" | "finance" }) {
   const refund = useServerFn(estornarAgendamento);
   const cancel = useServerFn(cancelBooking);
   const [signedIn, setSignedIn] = React.useState<boolean | null>(null);
+  const [userId, setUserId] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
   const [payment, setPayment] = React.useState<Record<string, typeof payments[number]["value"]>>({});
   const [refundId, setRefundId] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [filter, setFilter] = React.useState("agendado");
-  const query = useQuery({ queryKey: ["staff-panel"], queryFn: () => getPanel(), enabled: signedIn === true, retry: false });
-  React.useEffect(() => { let active = true; supabase.auth.getUser().then(({ data }) => { if (active) setSignedIn(Boolean(data.user)); }); return () => { active = false; }; }, []);
+  const query = useQuery({ queryKey: ["staff-panel", userId], queryFn: () => getPanel(), enabled: signedIn === true, retry: false });
+  React.useEffect(() => { let active = true; supabase.auth.getUser().then(({ data }) => { if (active) { setSignedIn(Boolean(data.user)); setUserId(data.user?.id ?? ""); } }); return () => { active = false; }; }, []);
   const refresh = async () => { await query.refetch(); };
   const act = async (fn: () => Promise<unknown>) => {
     setBusy(true); setError("");
@@ -40,7 +41,7 @@ export function StaffDashboard({ view }: { view: "staff" | "finance" }) {
       {signedIn === false && <Button asChild><Link to="/login" search={{ service: undefined }}>Entrar com conta da equipe</Link></Button>}
       {signedIn && query.isPending && <p>Carregando…</p>}
       {query.error && <p role="alert" className="text-chart-refund">{query.error.message.includes("restrito") ? "Sua conta não tem acesso aos painéis da equipe." : "Não foi possível carregar o painel. Tente atualizar."}</p>}
-      {query.data && <>
+      {signedIn && query.data && <>
         {view === "finance" ? <FinancialCharts entries={query.data.lancamentos} /> : <StaffBookingForm onSaved={refresh} />}
         {error && <p role="alert" className="text-chart-refund">{error}</p>}
         <section className="space-y-4">
