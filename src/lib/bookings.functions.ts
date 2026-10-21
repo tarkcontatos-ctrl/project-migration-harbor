@@ -195,7 +195,10 @@ export const createStaffBooking = createServerFn({ method: "POST" })
     await requireStaff(context.supabase, context.userId);
     const { data: id, error } = await context.supabase.rpc("create_walk_in_booking", {
       p_service: data.service, p_date_time: `${data.date}T${data.time}:00-03:00`, p_location: data.location,
-      p_name: data.name, p_phone: data.phone || undefined, p_plate: data.plate || undefined, p_model: data.model || undefined,
+      p_name: data.name,
+      ...(data.phone ? { p_phone: data.phone } : {}),
+      ...(data.plate ? { p_plate: data.plate } : {}),
+      ...(data.model ? { p_model: data.model } : {}),
     });
     if (error) throw new Error(error.message);
     return { id };
