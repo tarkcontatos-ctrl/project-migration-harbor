@@ -15,6 +15,13 @@
       "when": 1792458962207,
       "tag": "0001_google_first_password",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792547736227,
+      "tag": "0002_staff_walk_in_bookings",
+      "breakpoints": true
     }
   ]
 }

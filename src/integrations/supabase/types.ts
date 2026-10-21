@@ -62,6 +62,8 @@ export type Database = {
       agendamentos: {
         Row: {
           cancelado_em: string | null
+          cliente_presencial_nome: string | null
+          cliente_presencial_telefone: string | null
           concluido_em: string | null
           criado_em: string
           data_hora: string
@@ -70,13 +72,18 @@ export type Database = {
           id: string
           local: string
           motivo_estorno: string | null
+          registrado_por: string | null
           status: Database["public"]["Enums"]["agendamento_status"]
           usuario_id: string
           valor_total: number
           veiculo_id: string | null
+          veiculo_presencial_modelo: string | null
+          veiculo_presencial_placa: string | null
         }
         Insert: {
           cancelado_em?: string | null
+          cliente_presencial_nome?: string | null
+          cliente_presencial_telefone?: string | null
           concluido_em?: string | null
           criado_em?: string
           data_hora: string
@@ -87,13 +94,18 @@ export type Database = {
           id?: string
           local?: string
           motivo_estorno?: string | null
+          registrado_por?: string | null
           status?: Database["public"]["Enums"]["agendamento_status"]
           usuario_id: string
           valor_total?: number
           veiculo_id?: string | null
+          veiculo_presencial_modelo?: string | null
+          veiculo_presencial_placa?: string | null
         }
         Update: {
           cancelado_em?: string | null
+          cliente_presencial_nome?: string | null
+          cliente_presencial_telefone?: string | null
           concluido_em?: string | null
           criado_em?: string
           data_hora?: string
@@ -104,10 +116,13 @@ export type Database = {
           id?: string
           local?: string
           motivo_estorno?: string | null
+          registrado_por?: string | null
           status?: Database["public"]["Enums"]["agendamento_status"]
           usuario_id?: string
           valor_total?: number
           veiculo_id?: string | null
+          veiculo_presencial_modelo?: string | null
+          veiculo_presencial_placa?: string | null
         }
         Relationships: [
           {
@@ -310,6 +325,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_walk_in_booking: {
+        Args: {
+          p_date_time: string
+          p_location: string
+          p_model?: string
+          p_name: string
+          p_phone?: string
+          p_plate?: string
+          p_service: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
