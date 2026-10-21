@@ -6,7 +6,7 @@ import { financialReport, MONTHS, type LedgerEntry, type ReportMode } from "./fi
 
 const brl = (n: number) => Number(n).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const config = { receita: { label: "Receitas", color: "var(--chart-revenue)" }, estorno: { label: "Estornos", color: "var(--chart-refund)" }, saldo: { label: "Saldo", color: "var(--chart-balance)" } };
-export function FinancialCharts({ entries }: { entries: LedgerEntry[] }) {
+export function FinancialCharts({ entries }: { entries: (LedgerEntry & { servico_nome?: string; forma_pagamento?: string; motivo?: string | null })[] }) {
   const [mode, setMode] = React.useState<ReportMode>("monthly");
   const [year, setYear] = React.useState(new Date().getFullYear());
   const [month, setMonth] = React.useState(new Date().getMonth() + 1);
@@ -35,6 +35,6 @@ export function FinancialCharts({ entries }: { entries: LedgerEntry[] }) {
     </div>
     <div className="overflow-x-auto"><table className="w-full text-sm"><caption className="mb-3 text-left font-semibold">{mode === "daily" ? "Todos os dias" : mode === "monthly" ? "Todos os meses" : "Todos os anos"}</caption><thead><tr className="border-b border-border text-left text-xs text-muted-foreground"><th className="py-3">Período</th><th className="px-3 text-right">Receitas</th><th className="px-3 text-right">Estornos</th><th className="pl-3 text-right">Saldo</th></tr></thead><tbody>{rows.map((r) => <tr key={r.key} className="border-b border-border"><td className="py-3">{r.label}</td><td className="whitespace-nowrap px-3 text-right">{brl(r.receita)}</td><td className="whitespace-nowrap px-3 text-right">{brl(r.estorno)}</td><td className="whitespace-nowrap pl-3 text-right font-semibold">{brl(r.saldo)}</td></tr>)}</tbody></table></div>
     <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Ocultar livro-caixa" : "Abrir livro-caixa"}</Button>
-    {expanded && <ul className="divide-y divide-border">{entries.filter((e) => rows.some((r) => e.competencia.startsWith(r.key))).map((e, i) => <li key={i} className="flex justify-between gap-3 py-3 text-sm"><span>{e.competencia.split("-").reverse().join("/")} · {e.tipo}</span><span>{brl(e.valor)}</span></li>)}{entries.length === 0 && <li className="text-sm text-muted-foreground">Nenhum lançamento ainda.</li>}</ul>}
+    {expanded && <ul className="divide-y divide-border">{entries.filter((e) => rows.some((r) => e.competencia.startsWith(r.key))).map((e, i) => <li key={i} className="flex justify-between gap-3 py-3 text-sm"><span><b className="block font-semibold">{e.servico_nome ?? "Serviço"}</b>{e.competencia.split("-").reverse().join("/")} · {e.tipo} · {e.forma_pagamento?.replaceAll("_", " ")}{e.motivo && <span className="block text-muted-foreground">{e.motivo}</span>}</span><span className="whitespace-nowrap">{e.tipo === "estorno" ? "−" : ""}{brl(e.valor)}</span></li>)}{!entries.some((e) => rows.some((r) => e.competencia.startsWith(r.key))) && <li className="text-sm text-muted-foreground">Nenhum lançamento neste período.</li>}</ul>}
   </section>;
 }
