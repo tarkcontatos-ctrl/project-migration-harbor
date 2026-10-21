@@ -1,5 +1,4 @@
 export function loginDestination(roles: readonly string[]) {
-  return roles.includes("financeiro") || roles.includes("funcionario")
-    ? "/financeiro"
-    : "booking";
+  if (roles.includes("financeiro")) return "/financeiro";
+  return roles.includes("funcionario") ? "/funcionarios" : "booking";
 }

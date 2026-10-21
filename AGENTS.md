@@ -16,5 +16,7 @@
 - Contact messages use a schema-validated, encoded mailto action rather than simulated delivery; no messaging service is connected.
 - Use one shared service catalog for detail pages, login selection and booking prices; validate service IDs from URLs and never accept a price from query parameters.
 - Generic booking links open the service catalog; individual service links use `/servico/$service` and pass only the selected ID through login to the calendar.
-- Resolve the login destination from authenticated role RPCs before rendering booking; staff navigate to the financial panel while its server handlers retain independent authorization.
+- Resolve login destinations from authenticated role RPCs before rendering booking; finance takes precedence over employee access, and every staff handler independently authorizes the caller.
+- Walk-in appointments use an atomic staff-authorized database RPC and customer snapshot fields without fake auth accounts; the staff owner is attribution, not the walk-in customer identity.
+- Aggregate financial charts from the complete immutable ledger by competence date, filling missing periods with zero and subtracting refunds.
 - Track new Google registration in an auth lifecycle trigger, gate app rendering in the root, and allow first-password writes only for the authenticated pending owner; existing identities and password changes must never enter this privileged onboarding path.

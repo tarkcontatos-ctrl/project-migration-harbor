@@ -63,8 +63,9 @@ const SignIn1 = ({ serviceId }: { serviceId?: string | undefined }) => {
         const failed = results.find((result) => result.error);
         if (failed?.error) throw failed.error;
         const roles = results.flatMap((result, index) => result.data ? [index === 0 ? "financeiro" : "funcionario"] : []);
-        if (loginDestination(roles) === "/financeiro") {
-          await navigate({ to: "/financeiro", replace: true });
+        const destination = loginDestination(roles);
+        if (destination !== "booking") {
+          await navigate({ to: destination, replace: true });
           return;
         }
         setUserEmail(user.email ?? "");
