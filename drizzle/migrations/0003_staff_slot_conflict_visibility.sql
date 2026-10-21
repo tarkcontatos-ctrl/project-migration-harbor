@@ -1,0 +1,2 @@
+ALTER FUNCTION public.check_booking_slot() SECURITY DEFINER;
+COMMENT ON FUNCTION public.check_booking_slot() IS 'Checks all active appointments across customer RLS boundaries under an advisory transaction lock; trigger-only, not callable by users.';
