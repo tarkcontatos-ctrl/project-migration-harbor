@@ -62,8 +62,7 @@ export const listTakenSlots = createServerFn({ method: "GET" })
       .lte("data_hora", dayEnd);
     if (error) throw new Error(error.message);
     return rows.map((r) => {
-      const d = new Date(r.data_hora);
-      return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+      return new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(r.data_hora));
     });
   });
 
