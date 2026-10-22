@@ -195,8 +195,9 @@ export function ContactPage() {
     setNotice("Mensagem preparada. Conclua o envio no seu aplicativo de e-mail.");
   };
   const address = "Antonio Firmino da Silva, 210 - Santa Maria, José Bonifácio, SP";
-  const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&z=16&output=embed`;
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+  const mapQuery = "Av. Antônio Firmino da Silva, 210, Santa Maria, José Bonifácio - SP, 15200-000, Brasil";
+  const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=17&output=embed`;
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   return (
     <Shell eyebrow="Contato" title="Fale com a gente" intro="Tire dúvidas, peça um orçamento ou siga a DetailPro nas redes sociais.">
       <div className="grid gap-6 lg:grid-cols-[1fr_1.3fr]">
