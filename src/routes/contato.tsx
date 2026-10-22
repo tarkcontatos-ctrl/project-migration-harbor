@@ -5,9 +5,9 @@ export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
       { title: "Contato — DetailPro" },
-      { name: "description", content: "Telefone, e-mail, redes sociais e formulário de contato da DetailPro." },
+      { name: "description", content: "Endereço no mapa, telefone, e-mail, redes sociais e formulário de contato da DetailPro." },
       { property: "og:title", content: "Contato — DetailPro" },
-      { property: "og:description", content: "Telefone, e-mail, redes sociais e formulário de contato da DetailPro." },
+      { property: "og:description", content: "Endereço no mapa, telefone, e-mail, redes sociais e formulário de contato da DetailPro." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

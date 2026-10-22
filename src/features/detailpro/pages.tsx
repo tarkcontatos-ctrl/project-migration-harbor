@@ -194,14 +194,19 @@ export function ContactPage() {
     window.location.href = contactEmailUrl(result.data);
     setNotice("Mensagem preparada. Conclua o envio no seu aplicativo de e-mail.");
   };
+  const address = "Antonio Firmino da Silva, 210 - Santa Maria, José Bonifácio, SP";
+  const mapQuery = "Av. Antônio Firmino da Silva, 210, Santa Maria, José Bonifácio - SP, 15200-000, Brasil";
+  const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&near=-21.04748,-49.69653&z=17&output=embed`;
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   return (
     <Shell eyebrow="Contato" title="Fale com a gente" intro="Tire dúvidas, peça um orçamento ou siga a DetailPro nas redes sociais.">
       <div className="grid gap-6 lg:grid-cols-[1fr_1.3fr]">
         <div className="space-y-4">
           {[
+            { Icon: MapPin, t: "Endereço", d: address, href: mapLink },
             { Icon: Phone, t: "Telefone", d: "+7 999 123-45-67", href: "tel:+79991234567" },
             { Icon: Mail, t: "E-mail", d: "contato@detailpro.com", href: "mailto:contato@detailpro.com" },
-            { Icon: MapPin, t: "Horário de atendimento", d: "Seg a Sáb, 8h às 18h" },
+            { Icon: Clock, t: "Horário de atendimento", d: "Seg a Sáb, 8h às 18h" },
             { Icon: Instagram, t: "Instagram", d: "Solicitar perfil oficial", href: "mailto:contato@detailpro.com?subject=Perfil%20oficial%20do%20Instagram" },
             { Icon: Send, t: "Telegram", d: "Solicitar contato oficial", href: "mailto:contato@detailpro.com?subject=Contato%20oficial%20do%20Telegram" },
           ].map(({ Icon, t, d, href }) => {
@@ -220,6 +225,21 @@ export function ContactPage() {
               <Button type="submit" className="w-full h-auto rounded-full py-4 hover:bg-primary-hover"><Mail className="w-4 h-4" />Enviar por e-mail</Button>
               {notice && <p className="text-sm text-muted-foreground" role="status">{notice}</p>}
         </form>
+      </div>
+      <div className="mt-10">
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <iframe
+            title="Localização da DetailPro no Google Maps"
+            src={mapEmbed}
+            className="w-full h-[320px] md:h-[440px] border-0"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-5 border-t border-border">
+            <p className="text-sm text-muted-foreground max-w-xl"><b className="text-foreground font-semibold">Onde estamos:</b> {address}</p>
+            <a href={mapLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-primary px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition flex-none">Abrir no Google Maps <ArrowRight className="w-4 h-4" /></a>
+          </div>
+        </div>
       </div>
     </Shell>
   );
