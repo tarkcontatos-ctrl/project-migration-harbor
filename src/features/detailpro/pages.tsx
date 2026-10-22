@@ -232,7 +232,6 @@ export function ContactPage() {
             title="Localização da DetailPro no Google Maps"
             src={mapEmbed}
             className="w-full h-[320px] md:h-[440px] border-0"
-            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             allowFullScreen
           />
