@@ -196,7 +196,7 @@ export function ContactPage() {
   };
   const address = "Antonio Firmino da Silva, 210 - Santa Maria, José Bonifácio, SP";
   const mapQuery = "Av. Antônio Firmino da Silva, 210, Santa Maria, José Bonifácio - SP, 15200-000, Brasil";
-  const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=17&output=embed`;
+  const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&ll=-21.04748,-49.69653&z=17&output=embed`;
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
   return (
     <Shell eyebrow="Contato" title="Fale com a gente" intro="Tire dúvidas, peça um orçamento ou siga a DetailPro nas redes sociais.">
