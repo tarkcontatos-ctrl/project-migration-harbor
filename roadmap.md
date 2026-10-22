@@ -1,4 +1,5 @@
 # Remaining button review
+- [ ] Brand authentication emails as DetailPro without Lovable branding; blocked until an owned sender domain is configured.
 - [ ] Send personalized booking confirmation to the registered customer and a separate owner notice to tarkcontatos@gmail.com; blocked until the owner's email sender domain is configured.
 - [x] Add staff walk-in scheduling, save customer details and verify real booking readback.
 - [x] Add complete daily, monthly and annual financial charts and verify period filters.
